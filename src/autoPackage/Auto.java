@@ -21,6 +21,10 @@ public class Auto implements Comparable<Auto>{
 		this.mes = mes;
 	}
 
+	public Auto() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getMarca() {
 		return marca;
 	}
@@ -63,7 +67,22 @@ public class Auto implements Comparable<Auto>{
 		return -1;
 	}
 
-	public AutoKey getKey() {
-		return new AutoKey(this.getMarca(), this.getModelo(), this.getAño());
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + año;
+		result = prime * result + ((marca == null) ? 0 : marca.hashCode());
+		result = prime * result + ((modelo == null) ? 0 : modelo.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		Auto other = (Auto) obj;
+		if (this.getModelo().equals(other.getModelo()) && this.getMarca().equals(other.getMarca()) && this.getAño() == other.getAño()) {
+			return true;
+		}
+		return false;
 	}
 }

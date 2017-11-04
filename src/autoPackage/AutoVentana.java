@@ -29,7 +29,7 @@ public class AutoVentana extends JFrame {
 	DefaultListModel modeloListaResumen;
 	
 	ArrayList<Auto> autoList = new ArrayList<Auto>();
-	HashMap<AutoKey, Resumen> resumen = new HashMap<AutoKey, Resumen>();
+	HashMap<Auto, Resumen> resumen = new HashMap<Auto, Resumen>();
 
 	private JPanel contentPane;
 
@@ -87,7 +87,7 @@ public class AutoVentana extends JFrame {
 	
 	@SuppressWarnings("unchecked")
 	public void getAuto() {
-		AutoKey key;
+		Auto key;
 		
 		String marca = String.valueOf(this.nuevo.getMarcaBox().getSelectedItem());
 		String modelo = this.nuevo.getModeloField().getText();
@@ -98,7 +98,7 @@ public class AutoVentana extends JFrame {
 		this.autoList.add(new Auto(marca, modelo, precio, año, mes));
 		Collections.sort(this.autoList);
 		
-		key = new AutoKey(marca, modelo, año);
+		key = new Auto(marca, modelo, precio, año, mes);
 		if (!this.resumen.containsKey(key)) {
 			this.resumen.put(key, new Resumen(0,Integer.MAX_VALUE,0));
 		}
@@ -113,14 +113,14 @@ public class AutoVentana extends JFrame {
 		int sum = 0;
 		double promedio = 0;
 		int cant = 0;
-		AutoKey autoActual = new AutoKey();
+		Auto autoActual = new Auto();
 		
 		boolean first = true;
 		
 		this.modeloListaResumen.clear();
 		
 		for (Auto auto : this.autoList) {
-			if (!auto.getKey().equals(autoActual)) {
+			if (!auto.equals(autoActual)) {
 				if (!first) {
 					promedio = sum / cant;
 					this.resumen.put(autoActual, new Resumen(max, min, promedio));
@@ -131,7 +131,7 @@ public class AutoVentana extends JFrame {
 				} else {
 					first = false;
 				}
-				autoActual = auto.getKey();
+				autoActual = auto;
 			}
 			
 			min = this.resumen.get(autoActual).getMin();
